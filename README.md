@@ -1,34 +1,103 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Ignite - Trilha ReactJS: Chapter V
 
-## Getting Started
+## Performando apps com ReactJS
 
-First, run the development server:
+### Renderização no React
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+A renderização no React ocorre basicamente em 3 momentos:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- Pai para filho: sempre que um componente pai é renderizado novamente o seus componentes filhos também são.
+- Propriedades: sempre que uma propriedade é alterada o componente é renderizado novamente.
+- Hooks: sempre que um hook é chamado o componente  sofre uma nova renderização.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+### Fluxo de renderização
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+1. Gerar uma nova versão do componente que precisa ser renderizado
+2. Comparar a nova versão com a versão anterior
+3. Se houverem alterações, o React "renderiza" essa nova versão em tela
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+**Virtual DOM**
 
-## Learn More
+## Otimizações
 
-To learn more about Next.js, take a look at the following resources:
+## memo
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Impede que uma nova renderização do componente pai faça com que o filho também seja renderizado novamente.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+[Example](components/ProductItem.tsx)
 
-## Deploy on Vercel
+### Quando usar:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. Pure Functional Component
+2. Renders too often
+3. Re-render with same props
+4. Medium to big size
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## useMemo
+
+Evita que coisas que ocupam muito processamento sejam refeitas todas as vezes que o componente renderizar.
+
+**Memoriza um valor**
+
+[Example](components/SearchResults.tsx)
+
+### Quando usar:
+
+1. Cálculos pesados
+2. Variáveis que ocupam novos espaços na memória (Igualdade referencial), quando uma informação é repassada de pai pra filho.
+
+## useCallback
+
+Evita a criação desnecessária de funções.
+
+**Memoriza uma função**
+
+[Example](pages/index.tsx)
+
+### Quando usar:
+
+1. Prop drilling
+
+## Formatação de dados
+
+Evitar formatação e cálculos dentro dos componentes renderizados, é melhor fazê-los no momento em que buscamos os dados e não no momento em que exibimos.
+
+[Example](pages/index.tsx)
+
+## Dynamic import (Code splitting)
+
+Importar somente no momento em que utilizamos.
+
+**Lazy load**
+
+<details>
+  <summary>Next</summary>
+  Utilizamos o dynamic
+</details>
+
+<details>
+  <summary>React</summary>
+  Utilizamos o lazy
+</details>
+
+[Example](components/ProductItem.tsx)
+
+## Virtualização
+
+Permite mostrar em tela somente os itens visíveis no navegador.
+
+**React virtualized**
+
+[Example](components/SearchResults.tsx)
+
+## Bundle analyzer
+
+Análisar o bundle para descobrir o que está deixando a aplicação pesada.
+
+[Next Bundle Analyzer](https://github.com/vercel/next.js/tree/canary/packages/next-bundle-analyzer)
+
+<br>
+<br>
+<br>
+
+Desenvolvido com ❤️ por [Fernanda Leite](https://www.linkedin.com/in/fcleite19/)
